@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>꿈을 키우는 교육 | pinehope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine-blue:#1E88C7;
+    --pine-blue-deep:#136190;
+    --pine-green:#54A838;
+    --pine-green-deep:#3C7E27;
+    --leaf-light:#8FD15B;
+    --paper:#FBFAF6;
+    --ink:#26313A;
+    --mist:#EFF6FA;
+
+    --font-display:'Jua', sans-serif;
+    --font-friendly:'Gowun Dodum', sans-serif;
+    --font-body:'Noto Sans KR', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--font-body);line-height:1.75;-webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;margin:0;padding:0;}
+  button{font-family:inherit;}
+
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--pine-green);outline-offset:2px;border-radius:4px;
+  }
+  .skip-link{position:absolute;left:-999px;background:var(--pine-blue);color:#fff;padding:.6rem 1rem;border-radius:6px;}
+  .skip-link:focus{left:1rem;top:1rem;z-index:300;}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+  .eyebrow{
+    font-family:var(--font-friendly);font-size:.85rem;letter-spacing:.04em;
+    color:var(--pine-green-deep);
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:"";width:18px;height:2px;background:var(--pine-green);display:inline-block;}
+
+  h1,h2,h3{font-family:var(--font-display);margin:0;color:var(--pine-blue-deep);font-weight:400;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    background:rgba(251,250,246,.96);backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(30,136,199,.12);
+  }
+  .header-row{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;}
+  .logo img{height:38px;}
+
+  /* top menu bar, items in a row, dropdown reveals on hover */
+  .main-nav{display:flex;}
+  .main-nav > ul{display:flex;align-items:center;gap:4px;}
+  .nav-item{position:relative;}
+  .nav-top{
+    display:flex;align-items:center;gap:5px;cursor:pointer;
+    padding:22px 18px;font-family:var(--font-display);font-size:.92rem;
+    color:var(--pine-blue-deep);border-bottom:3px solid transparent;
+    transition:color .2s ease,border-color .2s ease;
+  }
+  .nav-item:hover .nav-top, .nav-item:focus-within .nav-top{color:var(--pine-green-deep);border-color:var(--pine-green);}
+  .caret{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .2s ease;}
+  .nav-item:hover .caret, .nav-item:focus-within .caret{transform:rotate(225deg);margin-top:2px;}
+
+  .dropdown{
+    position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(4px);
+    background:#fff;border-radius:14px;
+    box-shadow:0 24px 44px -20px rgba(19,97,144,.3);
+    padding:10px;min-width:230px;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  /* small invisible bridge so the dropdown doesn't close on the hover gap */
+  .nav-item::after{
+    content:"";position:absolute;left:0;right:0;top:100%;height:10px;
+  }
+  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown{
+    opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
+  }
+  .dropdown a{
+    display:block;padding:11px 16px;border-radius:9px;font-size:.9rem;color:#3c4a53;
+    transition:background .15s ease,color .15s ease;
+  }
+  .dropdown a:hover{background:var(--mist);color:var(--pine-blue-deep);}
+
+  .header-actions{display:flex;align-items:center;gap:12px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;padding:11px 24px;
+    border-radius:999px;font-size:.92rem;font-weight:500;border:1.5px solid transparent;
+    cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .2s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--pine-blue);color:#fff;}
+  .btn-primary:hover{box-shadow:0 10px 22px -10px rgba(30,136,199,.6);background:var(--pine-blue-deep);}
+  .btn-green{background:var(--pine-green);color:#fff;}
+  .btn-green:hover{box-shadow:0 10px 22px -10px rgba(84,168,56,.55);background:var(--pine-green-deep);}
+  .btn-outline{border-color:var(--pine-blue);color:var(--pine-blue);background:#fff;}
+  .btn-outline:hover{background:var(--pine-blue);color:#fff;}
+  .btn-outline-white{border-color:rgba(255,255,255,.8);color:#fff;background:rgba(255,255,255,.08);}
+  .btn-outline-white:hover{background:#fff;color:var(--pine-blue-deep);}
+
+  .nav-toggle{display:none;background:none;border:none;cursor:pointer;width:40px;height:40px;flex-direction:column;justify-content:center;align-items:center;gap:5px;}
+  .nav-toggle span{width:22px;height:2px;background:var(--pine-blue-deep);display:block;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;margin-top:92px;
+    min-height:78vh;display:flex;align-items:center;
+    background:linear-gradient(180deg,#EAF4FB 0%, #DCEFF9 55%, #F2F8EE 100%);
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+    padding-top:64px;padding-bottom:64px;
+  }
+  .hero-eyebrow{color:var(--pine-blue-deep);}
+  .hero-title{
+    font-size:clamp(2.1rem,4vw,3.1rem);line-height:1.4;margin-top:18px;color:var(--pine-blue-deep);
+  }
+  .hero-title .accent{color:var(--pine-green);}
+  .hero-sub{
+    font-family:var(--font-friendly);font-size:1.08rem;color:#3c4a53;margin-top:18px;max-width:480px;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .hero-figure{position:relative;}
+  .hero-figure img{
+    width:100%;border-radius:24px;
+    box-shadow:0 30px 60px -28px rgba(19,97,144,.35);
+  }
+  .hero-leaf{position:absolute;width:64px;}
+  .hero-leaf.l1{top:-26px;right:18px;animation:sway 5s ease-in-out infinite;}
+  .hero-leaf.l2{bottom:-18px;left:-22px;width:46px;animation:sway 6s ease-in-out infinite reverse;}
+  @keyframes sway{0%,100%{transform:rotate(-6deg) translateY(0);}50%{transform:rotate(6deg) translateY(-8px);}}
+  @media (prefers-reduced-motion: reduce){ .hero-leaf{animation:none;} html{scroll-behavior:auto;} }
+
+  /* ---------- Section shells ---------- */
+  section{padding:96px 0;}
+  .section-head{max-width:640px;margin:0 auto 52px;text-align:center;}
+  .section-head h2{font-size:clamp(1.7rem,2.8vw,2.3rem);margin-top:12px;}
+  .section-head p{color:#52606a;margin-top:14px;font-family:var(--font-friendly);}
+
+  /* ---------- Slogan band ---------- */
+  .slogan{background:var(--pine-blue);color:#fff;text-align:center;}
+  .slogan p{
+    font-family:var(--font-display);font-weight:400;
+    font-size:clamp(1.4rem,3vw,2rem);line-height:1.7;
+  }
+  .slogan p span{color:var(--leaf-light);}
+
+  /* ---------- WHAT / Programs ---------- */
+  .program-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .program-card{
+    background:#fff;border-radius:20px;padding:36px 30px;
+    border:1px solid rgba(30,136,199,.1);
+    box-shadow:0 16px 34px -26px rgba(19,97,144,.3);
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .program-card:hover{transform:translateY(-5px);box-shadow:0 22px 40px -22px rgba(19,97,144,.35);}
+  .program-num{
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:18px;
+  }
+  .program-card:nth-child(1) .program-num{background:var(--pine-blue);}
+  .program-card:nth-child(2) .program-num{background:var(--pine-green);}
+  .program-card:nth-child(3) .program-num{background:#3CA0A0;}
+  .program-card h3{font-size:1.25rem;color:var(--pine-blue-deep);}
+  .program-card p{margin-top:12px;color:#52606a;font-size:.95rem;}
+
+  /* ---------- WHO timeline ---------- */
+  .who{background:var(--mist);}
+  .who-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:center;}
+  .who-card{
+    background:#fff;border-radius:22px;padding:38px 34px;
+    box-shadow:0 18px 36px -26px rgba(19,97,144,.3);
+  }
+  .who-card .eyebrow{margin-bottom:10px;}
+  .who-card h2{font-size:1.6rem;}
+  .who-card p{margin-top:14px;color:#3c4a53;font-family:var(--font-friendly);}
+  .who-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap;}
+  .who-stat b{display:block;font-family:var(--font-display);font-size:1.6rem;color:var(--pine-green-deep);}
+  .who-stat span{font-size:.82rem;color:#6b7780;}
+
+  .who-list{list-style:none;}
+  .who-list li{
+    display:flex;align-items:flex-start;gap:16px;
+    padding:18px 0;border-bottom:1px dashed rgba(30,136,199,.22);
+  }
+  .who-list li:last-child{border-bottom:none;}
+  .who-bullet{
+    width:32px;height:32px;border-radius:50%;flex-shrink:0;
+    background:var(--pine-blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-size:.9rem;
+  }
+  .who-list h3{font-size:1.05rem;color:var(--pine-blue-deep);}
+  .who-list p{margin-top:4px;font-size:.92rem;color:#52606a;}
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .gallery-card{border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(30,136,199,.1);}
+  .gallery-thumb{
+    aspect-ratio:4/3;
+    background:linear-gradient(135deg,var(--pine-blue),var(--pine-green));
+    display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.9);
+    font-family:var(--font-display);font-size:.85rem;
+  }
+  .gallery-cap{padding:16px 18px;}
+  .gallery-cap p{font-weight:500;font-size:.95rem;}
+  .gallery-cap span{display:block;margin-top:4px;font-size:.8rem;color:#8a9299;}
+
+  /* ---------- Support CTA ---------- */
+  .support{
+    background:linear-gradient(135deg,var(--pine-green),var(--pine-green-deep));
+    color:#fff;text-align:center;
+  }
+  .support h2{color:#fff;font-size:clamp(1.7rem,3vw,2.4rem);}
+  .support p{max-width:560px;margin:16px auto 0;color:rgba(255,255,255,.92);font-family:var(--font-friendly);}
+  .support-actions{display:flex;justify-content:center;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--pine-blue-deep);color:rgba(255,255,255,.78);padding:60px 0 26px;font-size:.88rem;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.14);}
+  .footer-grid h4{color:#fff;font-size:.84rem;letter-spacing:.04em;margin-bottom:16px;font-weight:500;}
+  .footer-grid ul li{margin-bottom:8px;}
+  .footer-grid a:hover{color:var(--leaf-light);}
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
+
+  @media (max-width: 900px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-figure{order:-1;max-width:420px;margin:0 auto;}
+    .program-grid{grid-template-columns:1fr;}
+    .who-layout{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr;gap:26px;}
+  }
+  @media (max-width: 760px){
+    .main-nav{
+      position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--paper);
+      padding:20px 24px;overflow-y:auto;
+      transform:translateX(100%);transition:transform .25s ease;
+    }
+    .main-nav.open{transform:translateX(0);}
+    .main-nav > ul{flex-direction:column;align-items:stretch;gap:4px;}
+    .nav-top{padding:16px 4px;border-bottom:1px solid rgba(30,136,199,.1)!important;}
+    .dropdown{
+      position:static;transform:none;box-shadow:none;
+      opacity:1;visibility:visible;pointer-events:auto;
+      max-height:0;overflow:hidden;padding:0 4px;
+      transition:max-height .25s ease;
+    }
+    .nav-item.expanded .dropdown{max-height:260px;padding:8px 4px 14px;}
+    .nav-item::after{display:none;}
+    .nav-toggle{display:flex;}
+    .header-actions .btn-primary{padding:9px 16px;font-size:.84rem;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width: 520px){
+    section{padding:72px 0;}
+    .gallery-grid{grid-template-columns:1fr;}
+    .who-stats{gap:20px;}
+  }
+</style>
+
+<style>
+  .page-hero{
+    margin-top:92px;
+    background:linear-gradient(135deg,var(--pine-blue),var(--pine-blue-deep));
+    color:#fff;padding:64px 0 52px;
+  }
+  .page-hero .eyebrow{color:rgba(255,255,255,.85);}
+  .page-hero .eyebrow::before{background:var(--leaf-light);}
+  .page-hero h1{color:#fff;font-size:clamp(1.9rem,3.6vw,2.6rem);margin-top:14px;}
+  .breadcrumb{font-size:.85rem;color:rgba(255,255,255,.75);margin-bottom:6px;}
+  .breadcrumb a{color:rgba(255,255,255,.85);}
+  .breadcrumb a:hover{color:var(--leaf-light);}
+  .detail-body{max-width:760px;margin:0 auto;padding:88px 24px;}
+  .detail-body p{color:#3c4a53;font-size:1.02rem;margin-bottom:20px;}
+  .detail-body h2{font-size:1.3rem;margin:36px 0 14px;}
+  .detail-list{margin:18px 0 28px;padding-left:0;}
+  .detail-list li{
+    list-style:none;display:flex;gap:12px;padding:10px 0;
+    border-bottom:1px dashed rgba(30,136,199,.2);color:#3c4a53;font-size:.96rem;
+  }
+  .detail-list li::before{content:"·";color:var(--pine-green);font-weight:700;}
+  .program-pager{
+    display:flex;justify-content:space-between;
+    max-width:760px;margin:0 auto;padding:0 24px 80px;
+    font-size:.9rem;
+  }
+  .program-pager a{color:var(--pine-blue);}
+  .program-pager a:hover{color:var(--pine-blue-deep);}
+</style>
+
+</head>
+<body>
+<body>
+
+<a href="#main" class="skip-link">본문 바로가기</a>
+
+<header class="site-header">
+  <div class="header-row wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="logo">
+      <img src="assets/logo.png" alt="pinehope 파인희망나눔">
+    </a>
+
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li class="nav-item">
+          <span class="nav-top">WHO <span class="caret"></span></span>
+          <div class="dropdown">
+            <a href="who.html#greeting">이사장 인사말</a>
+            <a href="who.html#org">조직도</a>
+            <a href="who.html#history">연혁</a>
+            <a href="who.html#location">찾아오는 길</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <span class="nav-top">WHAT <span class="caret"></span></span>
+          <div class="dropdown">
+            <a href="program-1.html">꿈을 키우는 교육</a>
+            <a href="program-2.html">희망을 이어가는 지원</a>
+            <a href="program-3.html">함께 만드는 성장</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <span class="nav-top">활동소식 <span class="caret"></span></span>
+          <div class="dropdown">
+            <a href="gallery.html">활동 갤러리</a>
+            <a href="news.html">공지사항</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-top" href="support.html" style="border-bottom:none;">후원안내</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href="support.html" class="btn btn-primary">후원하기</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">홈</a> &gt; WHAT</div>
+      <span class="eyebrow">WHAT WE DO</span>
+      <h1>꿈을 키우는 교육</h1>
+    </div>
+  </section>
+
+  <article class="detail-body">
+
+    <p>경제적·환경적 어려움을 겪는 청소년들이 자신의 가능성을 발견하고 건강한 사회 구성원으로 성장할 수 있도록, 진로 탐색, 정서 상담, 멘토링 및 다양한 교육 프로그램을 운영합니다.</p>
+    <h2>주요 내용</h2>
+    <ul class="detail-list">
+      <li>진로 탐색 워크숍 및 적성 검사</li>
+      <li>정서 상담 및 심리지원 프로그램</li>
+      <li>1:1 멘토링 매칭</li>
+      <li>자기이해·자존감 향상 교육</li>
+    </ul>
+    <p style="color:#8a9299;font-size:.88rem;">※ 위 내용은 자리 배치를 위한 임시 구성입니다. 실제 프로그램 일정과 세부 내용으로 교체될 예정입니다.</p>
+
+  </article>
+
+  <nav class="program-pager">
+    <span></span>
+    <a href="program-2.html">희망을 이어가는 지원 →</a>
+  </nav>
+</main>
+
+<footer >
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>사단법인 파인희망나눔</h4>
+        <p>이사장 : (이사장명 입력)<br>
+        고유번호 : (고유번호 입력)<br>
+        주소 : (주소 입력)</p>
+        <p style="margin-top:8px;color:rgba(255,255,255,.55);">TEL (전화번호) · E-MAIL (이메일 주소)</p>
+      </div>
+      <div>
+        <h4>WHO</h4>
+        <ul>
+          <li><a href="who.html#greeting">이사장 인사말</a></li>
+          <li><a href="who.html#org">조직도</a></li>
+          <li><a href="who.html#history">연혁</a></li>
+          <li><a href="who.html#location">찾아오는 길</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>WHAT</h4>
+        <ul>
+          <li><a href="program-1.html">꿈을 키우는 교육</a></li>
+          <li><a href="program-2.html">희망을 이어가는 지원</a></li>
+          <li><a href="program-3.html">함께 만드는 성장</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© PINEHOPE. All rights reserved.</span>
+      <span>이용약관 · 개인정보처리방침</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // on mobile, tapping a top-level item expands its dropdown instead of navigating
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const top = item.querySelector('.nav-top');
+    const hasDropdown = item.querySelector('.dropdown');
+    if (hasDropdown) {
+      top.addEventListener('click', (e) => {
+        if (window.innerWidth <= 760) {
+          e.preventDefault();
+          item.classList.toggle('expanded');
+        }
+      });
+    }
+  });
+
+  mainNav.querySelectorAll('.dropdown a, .nav-top[href]').forEach(link => {
+    link.addEventListener('click', () => {
+      mainNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', false);
+    });
+  });
+</script>
+
+</body>
+</html>
+
