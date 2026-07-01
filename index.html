@@ -54,14 +54,14 @@
   /* ---------- Header ---------- */
   .site-header{
     position:fixed;top:0;left:0;right:0;z-index:200;
-    background:var(--mist);
+    background:rgba(251,250,246,.96);backdrop-filter:blur(6px);
     border-bottom:1px solid rgba(30,136,199,.12);
   }
   .header-row{display:flex;align-items:center;justify-content:space-between;padding:8px 24px;}
   .logo img{height:100px;}
 
   /* top menu bar, items in a row, dropdown reveals on hover */
-  .main-nav{display:flex;}
+  .main-nav{display:flex;flex:1;justify-content:center;}
   .main-nav > ul{display:flex;align-items:center;gap:4px;}
   .nav-item{position:relative;}
   .nav-top{
