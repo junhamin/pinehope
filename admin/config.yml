@@ -5,6 +5,7 @@ backend:
   base_url: https://api.netlify.com
   auth_endpoint: auth
 
+site_url: https://pinehope.or.kr
 media_folder: assets/uploads   # 업로드한 사진이 저장되는 폴더
 public_folder: assets/uploads
 
