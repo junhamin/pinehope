@@ -1,12 +1,13 @@
 backend:
+  backend:
   name: github
-  repo: junhamin/pinehope   # ← 본인 깃허브 아이디/저장소 이름으로 교체
+  repo: junhamin/pinehope
   branch: main
   base_url: https://pinehope.netlify.app
   auth_endpoint: auth
 
-site_url: https://pinehope.or.kr
-media_folder: assets/uploads   # 업로드한 사진이 저장되는 폴더
+site_url: https://pinehope.netlify.app
+media_folder: assets/uploads
 public_folder: assets/uploads
 
 locale: ko
