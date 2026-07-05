@@ -4,8 +4,9 @@ backend:
   branch: main
   base_url: https://pinehope.netlify.app
   auth_endpoint: auth
+  cms_label_prefix: pinehope
 
-site_url: https://pinehope.or.kr
+site_url: https://pinehope.netlify.app
 media_folder: assets/uploads
 public_folder: assets/uploads
 
