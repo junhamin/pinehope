@@ -2,6 +2,7 @@ backend:
   name: github
   repo: junhamin/pinehope
   branch: main
+  base_url: https://pinehope-oauth.haminjun.workers.dev
 
 media_folder: assets/uploads
 public_folder: assets/uploads
