@@ -6,6 +6,23 @@
   <title>파인희망나눔 관리자</title>
 </head>
 <body>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
   <script src="https://unpkg.com/decap-cms@3.1.4/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'junhamin/pinehope',
+          branch: 'main'
+        },
+        media_folder: 'assets/uploads',
+        public_folder: 'assets/uploads',
+        collections: []
+      }
+    });
+  </script>
 </body>
 </html>
