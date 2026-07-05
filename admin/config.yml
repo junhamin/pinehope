@@ -1,12 +1,11 @@
 backend:
-  backend:
   name: github
   repo: junhamin/pinehope
   branch: main
   base_url: https://pinehope.netlify.app
   auth_endpoint: auth
 
-site_url: https://pinehope.netlify.app
+site_url: https://pinehope.or.kr
 media_folder: assets/uploads
 public_folder: assets/uploads
 
