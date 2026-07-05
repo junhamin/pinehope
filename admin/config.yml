@@ -2,19 +2,13 @@ backend:
   name: github
   repo: junhamin/pinehope
   branch: main
-  base_url: https://pinehope.netlify.app
-  auth_endpoint: auth
-  cms_label_prefix: pinehope
 
-site_url: https://pinehope.netlify.app
 media_folder: assets/uploads
 public_folder: assets/uploads
 
 locale: ko
 
 collections:
-
-  # ── 공지사항 ──────────────────────────────────────────────
   - name: news
     label: 공지사항
     label_singular: 공지글
@@ -31,7 +25,6 @@ collections:
         default: 공지
       - { label: 내용, name: body, widget: markdown }
 
-  # ── 갤러리 ───────────────────────────────────────────────
   - name: gallery
     label: 활동 갤러리
     label_singular: 사진
@@ -43,70 +36,3 @@ collections:
       - { label: 날짜, name: date, widget: datetime, format: "YYYY.MM", date_format: "YYYY.MM", time_format: false }
       - { label: 사진, name: image, widget: image }
       - { label: 설명 (선택), name: description, widget: string, required: false }
-
-  # ── WHO 페이지 ────────────────────────────────────────────
-  - name: who
-    label: WHO (법인소개)
-    files:
-      - label: 이사장 인사말
-        name: greeting
-        file: _data/who/greeting.md
-        fields:
-          - { label: 인사말 본문, name: body, widget: markdown }
-
-      - label: 연혁
-        name: history
-        file: _data/who/history.md
-        fields:
-          - label: 연혁 항목
-            name: items
-            widget: list
-            fields:
-              - { label: 연도, name: year, widget: string }
-              - { label: 제목, name: title, widget: string }
-              - { label: 설명, name: description, widget: text }
-
-      - label: 오시는 길 (주소·연락처)
-        name: location
-        file: _data/who/location.md
-        fields:
-          - { label: 주소, name: address, widget: string }
-          - { label: 전화번호, name: phone, widget: string }
-          - { label: 이메일, name: email, widget: string }
-
-  # ── WHAT 사업소개 ─────────────────────────────────────────
-  - name: what
-    label: WHAT (사업소개)
-    files:
-      - label: "사업 01 – 꿈을 키우는 교육"
-        name: program1
-        file: _data/what/program-1.md
-        fields:
-          - { label: 사업명, name: title, widget: string }
-          - { label: 소개 문구, name: summary, widget: text }
-          - label: 주요 내용 목록
-            name: items
-            widget: list
-            field: { label: 항목, name: item, widget: string }
-
-      - label: "사업 02 – 희망을 이어가는 지원"
-        name: program2
-        file: _data/what/program-2.md
-        fields:
-          - { label: 사업명, name: title, widget: string }
-          - { label: 소개 문구, name: summary, widget: text }
-          - label: 주요 내용 목록
-            name: items
-            widget: list
-            field: { label: 항목, name: item, widget: string }
-
-      - label: "사업 03 – 함께 만드는 성장"
-        name: program3
-        file: _data/what/program-3.md
-        fields:
-          - { label: 사업명, name: title, widget: string }
-          - { label: 소개 문구, name: summary, widget: text }
-          - label: 주요 내용 목록
-            name: items
-            widget: list
-            field: { label: 항목, name: item, widget: string }
