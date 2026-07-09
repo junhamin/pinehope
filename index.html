@@ -225,7 +225,7 @@
   .who-list p{margin-top:4px;font-size:.92rem;color:#52606a;}
 
   /* ---------- Gallery ---------- */
-  .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:720px;margin:0 auto;}
+  .gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
   .gallery-card{border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(30,136,199,.1);}
   .gallery-thumb{
     aspect-ratio:4/3;
@@ -274,17 +274,17 @@
     .header-actions{order:2;}
     .header-actions .btn-primary{padding:8px 14px;font-size:.8rem;}
     .dropdown{min-width:180px;font-size:.82rem;}
-    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
     .hero{margin-top:130px;}
   }
   @media (max-width: 520px){
     section{padding:72px 0;}
     .nav-top{padding:10px 8px;font-size:.76rem;}
-    .gallery-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
     .who-stats{gap:20px;}
     .hero{margin-top:140px;}
   }
-    .gallery-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
     .who-stats{gap:20px;}
   }
 </style>
