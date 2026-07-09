@@ -287,6 +287,7 @@
   .who{background:var(--mist);}
   .who-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:start;}
   .who-card{background:#fff;border-radius:22px;padding:38px 34px;box-shadow:0 18px 36px -26px rgba(19,97,144,.3);}
+  .who-card-full{background:#fff;border-radius:22px;padding:38px 34px;box-shadow:0 18px 36px -26px rgba(19,97,144,.3);max-width:800px;margin:0 auto;}
   .who-card h2{font-size:1.6rem;}
   .who-card p{margin-top:14px;color:#3c4a53;font-family:var(--font-friendly);}
   .who-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap;}
@@ -387,41 +388,48 @@
         <span class="eyebrow">GREETING</span>
         <h2>이사장 인사말</h2>
       </div>
-      <div class="who-layout">
-        <div class="who-card">
-          <h2 style="font-size:1.4rem;">안녕하십니까,<br>파인희망나눔입니다.</h2>
-          <p>파인희망나눔 홈페이지를 찾아주신 여러분께 진심으로 감사드립니다.</p>
-          <p>우리는 모두 누군가의 작은 관심과 따뜻한 손길을 통해 희망을 얻고, 다시 그 희망을 다른 사람에게 전하며 살아갑니다. 나눔은 가진 것을 덜어내는 것이 아니라, 함께 행복을 만들어 가는 가장 가치 있는 시작이라고 믿습니다.</p>
-          <p>파인희망나눔은 도움이 필요한 이웃과 자립을 준비하는 청년들이 희망을 잃지 않고 자신의 꿈을 이어갈 수 있도록 함께하는 든든한 동반자가 되고자 합니다. 일회성 지원을 넘어 스스로 미래를 만들어 갈 수 있는 힘을 키우는 나눔을 실천하겠습니다.</p>
-          <p>또한 모든 후원과 사업은 투명하고 책임감 있게 운영하며, 보내주신 소중한 마음이 가장 필요한 곳에 온전히 전달될 수 있도록 최선을 다하겠습니다.</p>
-          <p>여러분의 따뜻한 관심과 참여가 또 다른 희망을 만들고, 그 희망이 우리 사회를 더욱 풍성하게 만들어 갈 것입니다.</p>
-          <p style="margin-top:24px;font-family:var(--font-display);color:var(--pine-blue-deep);">나누고 더 풍성해지는 파인.<br>파인희망나눔은 앞으로도 여러분과 함께 더 따뜻한 세상을 만들어 가겠습니다.<br>감사합니다.</p>
-          <p style="margin-top:16px;font-weight:500;">파인희망나눔 이사장</p>
-          <div class="who-stats">
-            <div class="who-stat"><b>2017~</b><span>설립 연도</span></div>
-            <div class="who-stat"><b>3</b><span>핵심 사업</span></div>
-            <div class="who-stat"><b>OOO+</b><span>함께한 청소년</span></div>
-          </div>
+      <div class="who-card-full">
+        <h2 style="font-size:1.4rem;">안녕하십니까,<br>파인희망나눔입니다.</h2>
+        <p>파인희망나눔 홈페이지를 찾아주신 여러분께 진심으로 감사드립니다.</p>
+        <p>우리는 모두 누군가의 작은 관심과 따뜻한 손길을 통해 희망을 얻고, 다시 그 희망을 다른 사람에게 전하며 살아갑니다. 나눔은 가진 것을 덜어내는 것이 아니라, 함께 행복을 만들어 가는 가장 가치 있는 시작이라고 믿습니다.</p>
+        <p>파인희망나눔은 도움이 필요한 이웃과 자립을 준비하는 청년들이 희망을 잃지 않고 자신의 꿈을 이어갈 수 있도록 함께하는 든든한 동반자가 되고자 합니다. 일회성 지원을 넘어 스스로 미래를 만들어 갈 수 있는 힘을 키우는 나눔을 실천하겠습니다.</p>
+        <p>또한 모든 후원과 사업은 투명하고 책임감 있게 운영하며, 보내주신 소중한 마음이 가장 필요한 곳에 온전히 전달될 수 있도록 최선을 다하겠습니다.</p>
+        <p>여러분의 따뜻한 관심과 참여가 또 다른 희망을 만들고, 그 희망이 우리 사회를 더욱 풍성하게 만들어 갈 것입니다.</p>
+        <p style="margin-top:24px;font-family:var(--font-display);color:var(--pine-blue-deep);">나누고 더 풍성해지는 파인.<br>파인희망나눔은 앞으로도 여러분과 함께 더 따뜻한 세상을 만들어 가겠습니다.<br>감사합니다.</p>
+        <p style="margin-top:16px;font-weight:500;">파인희망나눔 이사장</p>
+        <div class="who-stats">
+          <div class="who-stat"><b>2017~</b><span>설립 연도</span></div>
+          <div class="who-stat"><b>3</b><span>핵심 사업</span></div>
+          <div class="who-stat"><b>OOO+</b><span>함께한 청소년</span></div>
         </div>
-        <ul class="who-list" id="history">
-          <li>
-            <div class="who-bullet">1</div>
-            <div><h3>설립 및 사단법인 등록</h3><p>취약청소년을 위한 진로·정서·학습 지원을 목표로 출발했습니다. (연도·세부 내용 추후 교체)</p></div>
-          </li>
-          <li>
-            <div class="who-bullet">2</div>
-            <div><h3>교육 및 상담 프로그램 운영 시작</h3><p>진로 탐색, 정서 상담, 멘토링 프로그램을 정규 사업으로 운영하기 시작했습니다.</p></div>
-          </li>
-          <li>
-            <div class="who-bullet">3</div>
-            <div><h3>학습지원·생활안정 지원 확대</h3><p>학업을 지속하기 어려운 청소년들을 위한 지원 범위를 넓혀갔습니다.</p></div>
-          </li>
-          <li>
-            <div class="who-bullet">4</div>
-            <div><h3>협력 네트워크 구축</h3><p>학교·복지기관·기업과의 협력을 통해 지속가능한 지원체계를 만들어가고 있습니다.</p></div>
-          </li>
-        </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="who" style="background:#fff;" id="history">
+    <div class="wrap">
+      <div class="section-head" style="text-align:left;margin-bottom:36px;">
+        <span class="eyebrow">HISTORY</span>
+        <h2>연혁</h2>
+      </div>
+      <ul class="who-list">
+        <li>
+          <div class="who-bullet">1</div>
+          <div><h3>설립 및 사단법인 등록</h3><p>취약청소년을 위한 진로·정서·학습 지원을 목표로 출발했습니다. (연도·세부 내용 추후 교체)</p></div>
+        </li>
+        <li>
+          <div class="who-bullet">2</div>
+          <div><h3>교육 및 상담 프로그램 운영 시작</h3><p>진로 탐색, 정서 상담, 멘토링 프로그램을 정규 사업으로 운영하기 시작했습니다.</p></div>
+        </li>
+        <li>
+          <div class="who-bullet">3</div>
+          <div><h3>학습지원·생활안정 지원 확대</h3><p>학업을 지속하기 어려운 청소년들을 위한 지원 범위를 넓혀갔습니다.</p></div>
+        </li>
+        <li>
+          <div class="who-bullet">4</div>
+          <div><h3>협력 네트워크 구축</h3><p>학교·복지기관·기업과의 협력을 통해 지속가능한 지원체계를 만들어가고 있습니다.</p></div>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -451,12 +459,7 @@
       </div>
       <div class="map-card">
         <a href="https://naver.me/xZKjFOOR" target="_blank" rel="noopener" style="display:block;">
-          <div class="map-placeholder" style="cursor:pointer;position:relative;">
-            <span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              네이버 지도에서 보기 →
-            </span>
-          </div>
+          <img src="assets/map.png" alt="파인희망나눔 위치 지도 - 서울특별시 용산구 청파로 74" style="width:100%;display:block;cursor:pointer;">
         </a>
         <div class="map-info">
           서울특별시 용산구 청파로 74, 226호 (한강로 3가)
