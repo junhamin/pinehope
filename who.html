@@ -238,14 +238,14 @@
   .footer-grid a:hover{color:var(--leaf-light);}
   .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
   .footer-bottom-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-  .footer-badges{display:flex;align-items:center;gap:10px;}
+  .footer-badges{display:flex;align-items:center;gap:14px;}
   .footer-badges a{
-    background:#fff;border-radius:8px;padding:4px 9px;
+    background:#fff;border-radius:10px;padding:8px 16px;
     display:flex;align-items:center;justify-content:center;
     transition:opacity .2s ease,transform .2s ease;
   }
   .footer-badges a:hover{opacity:.85;transform:translateY(-1px);}
-  .footer-badges img{height:20px;width:auto;max-width:88px;display:block;}
+  .footer-badges img{height:34px;width:auto;max-width:150px;display:block;}
 
   @media (max-width: 900px){
     .hero .wrap{grid-template-columns:1fr;}
@@ -346,23 +346,20 @@
   .org-box span{font-size:.85rem;color:#6b7780;}
   .map-block{padding:0 0 96px;}
   .map-card{
-    position:relative;max-width:900px;margin:0 auto;background:#fff;
-    border-radius:18px 18px 0 0;overflow:hidden;
-    border-top:5px solid var(--pine-blue);
-    border-left:5px solid var(--pine-blue);
-    border-right:5px solid var(--pine-blue);
+    max-width:900px;margin:0 auto;
+    background:var(--paper);
+    border-radius:28px;
+    padding:16px 16px 30px;
     box-shadow:0 18px 36px -26px rgba(19,97,144,.25);
+    border:1px solid rgba(30,136,199,.08);
   }
-  .map-card::after{
-    content:"";position:absolute;left:0;bottom:0;width:25%;height:5px;
-    background:var(--pine-green);
-  }
+  .map-image-wrap{display:block;border-radius:16px;overflow:hidden;}
   .map-placeholder{
     aspect-ratio:16/7;background:linear-gradient(135deg,var(--mist),#fff);
     display:flex;align-items:center;justify-content:center;color:#8a9299;
     font-family:var(--font-display);font-size:.95rem;
   }
-  .map-info{padding:22px 26px;font-size:.92rem;color:#3c4a53;line-height:1.9;}
+  .map-info{padding:16px 8px 0;font-size:.92rem;color:#3c4a53;line-height:1.9;text-align:center;}
   @media (max-width:900px){.who-layout{grid-template-columns:1fr;}.org-grid{grid-template-columns:1fr;}}
 </style>
 
@@ -503,7 +500,7 @@
         <h2>찾아오는 길</h2>
       </div>
       <div class="map-card">
-        <a href="https://naver.me/xZKjFOOR" target="_blank" rel="noopener" style="display:block;">
+        <a href="https://naver.me/xZKjFOOR" target="_blank" rel="noopener" class="map-image-wrap">
           <img src="assets/map.png" alt="파인희망나눔 위치 지도 - 서울특별시 용산구 청파로 74" style="width:100%;display:block;cursor:pointer;">
         </a>
         <div class="map-info">
