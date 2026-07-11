@@ -236,7 +236,16 @@
   .footer-grid h4{color:#fff;font-size:.84rem;letter-spacing:.04em;margin-bottom:16px;font-weight:500;}
   .footer-grid ul li{margin-bottom:8px;}
   .footer-grid a:hover{color:var(--leaf-light);}
-  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
+  .footer-bottom-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .footer-badges{display:flex;align-items:center;gap:10px;}
+  .footer-badges a{
+    background:#fff;border-radius:8px;padding:4px 9px;
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .2s ease,transform .2s ease;
+  }
+  .footer-badges a:hover{opacity:.85;transform:translateY(-1px);}
+  .footer-badges img{height:20px;width:auto;max-width:88px;display:block;}
 
   @media (max-width: 900px){
     .hero .wrap{grid-template-columns:1fr;}
@@ -299,16 +308,54 @@
   .who-bullet{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:var(--pine-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.9rem;}
   .who-list h3{font-size:1.05rem;color:var(--pine-blue-deep);}
   .who-list p{margin-top:4px;font-size:.92rem;color:#52606a;}
+
+  .timeline{position:relative;max-width:760px;margin:0 auto;}
+  .timeline::before{
+    content:"";position:absolute;left:23px;top:8px;bottom:8px;width:2px;
+    background:repeating-linear-gradient(to bottom, rgba(30,136,199,.28) 0 6px, transparent 6px 12px);
+  }
+  .timeline-item{position:relative;display:flex;align-items:flex-start;gap:24px;}
+  .timeline-item + .timeline-item{margin-top:28px;}
+  .timeline-dot{
+    position:relative;z-index:1;flex-shrink:0;
+    width:46px;height:46px;border-radius:50%;
+    background:#fff;border:3px solid var(--pine-blue);color:var(--pine-blue-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-size:1.05rem;
+    box-shadow:0 6px 14px -6px rgba(19,97,144,.35);
+  }
+  .timeline-content{
+    flex:1;background:#fff;border:1px solid rgba(30,136,199,.1);border-radius:16px;
+    padding:20px 26px;margin-top:2px;
+    box-shadow:0 12px 26px -22px rgba(19,97,144,.4);
+  }
+  .timeline-content h3{font-size:1.05rem;color:var(--pine-blue-deep);}
+  .timeline-content p{margin-top:6px;font-size:.92rem;color:#52606a;}
+  @media (max-width:560px){
+    .timeline::before{left:19px;}
+    .timeline-dot{width:38px;height:38px;font-size:.9rem;}
+    .timeline-content{padding:16px 18px;}
+  }
+
   .org-block{padding:88px 0;}
   .org-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto;}
+  .org-grid-top{grid-template-columns:repeat(4,1fr);margin-bottom:24px;}
+  .org-grid-sub{grid-template-columns:repeat(3,1fr);max-width:700px;}
   .org-box{background:#fff;border:1px solid rgba(30,136,199,.12);border-radius:16px;padding:26px;text-align:center;}
   .org-box b{display:block;font-family:var(--font-display);color:var(--pine-blue-deep);margin-bottom:6px;}
   .org-box span{font-size:.85rem;color:#6b7780;}
   .map-block{padding:0 0 96px;}
   .map-card{
-    max-width:900px;margin:0 auto;background:#fff;border-radius:18px;
-    border:1px solid rgba(30,136,199,.12);overflow:hidden;
+    position:relative;max-width:900px;margin:0 auto;background:#fff;
+    border-radius:18px 18px 0 0;overflow:hidden;
+    border-top:5px solid var(--pine-blue);
+    border-left:5px solid var(--pine-blue);
+    border-right:5px solid var(--pine-blue);
     box-shadow:0 18px 36px -26px rgba(19,97,144,.25);
+  }
+  .map-card::after{
+    content:"";position:absolute;left:0;bottom:0;width:25%;height:5px;
+    background:var(--pine-green);
   }
   .map-placeholder{
     aspect-ratio:16/7;background:linear-gradient(135deg,var(--mist),#fff);
@@ -397,11 +444,6 @@
         <p>여러분의 따뜻한 관심과 참여가 또 다른 희망을 만들고, 그 희망이 우리 사회를 더욱 풍성하게 만들어 갈 것입니다.</p>
         <p style="margin-top:24px;font-family:var(--font-display);color:var(--pine-blue-deep);">나누고 더 풍성해지는 파인.<br>파인희망나눔은 앞으로도 여러분과 함께 더 따뜻한 세상을 만들어 가겠습니다.<br>감사합니다.</p>
         <p style="margin-top:16px;font-weight:500;">파인희망나눔 이사장</p>
-        <div class="who-stats">
-          <div class="who-stat"><b>2017~</b><span>설립 연도</span></div>
-          <div class="who-stat"><b>3</b><span>핵심 사업</span></div>
-          <div class="who-stat"><b>OOO+</b><span>함께한 청소년</span></div>
-        </div>
       </div>
     </div>
   </section>
@@ -412,22 +454,22 @@
         <span class="eyebrow">HISTORY</span>
         <h2>연혁</h2>
       </div>
-      <ul class="who-list">
-        <li>
-          <div class="who-bullet">1</div>
-          <div><h3>설립 및 사단법인 등록</h3><p>취약청소년을 위한 진로·정서·학습 지원을 목표로 출발했습니다. (연도·세부 내용 추후 교체)</p></div>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-content"><h3>설립 및 사단법인 등록</h3><p>취약청소년을 위한 진로·정서·학습 지원을 목표로 출발했습니다. (연도·세부 내용 추후 교체)</p></div>
         </li>
-        <li>
-          <div class="who-bullet">2</div>
-          <div><h3>교육 및 상담 프로그램 운영 시작</h3><p>진로 탐색, 정서 상담, 멘토링 프로그램을 정규 사업으로 운영하기 시작했습니다.</p></div>
+        <li class="timeline-item">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-content"><h3>교육 및 상담 프로그램 운영 시작</h3><p>진로 탐색, 정서 상담, 멘토링 프로그램을 정규 사업으로 운영하기 시작했습니다.</p></div>
         </li>
-        <li>
-          <div class="who-bullet">3</div>
-          <div><h3>학습지원·생활안정 지원 확대</h3><p>학업을 지속하기 어려운 청소년들을 위한 지원 범위를 넓혀갔습니다.</p></div>
+        <li class="timeline-item">
+          <div class="timeline-dot">3</div>
+          <div class="timeline-content"><h3>학습지원·생활안정 지원 확대</h3><p>학업을 지속하기 어려운 청소년들을 위한 지원 범위를 넓혀갔습니다.</p></div>
         </li>
-        <li>
-          <div class="who-bullet">4</div>
-          <div><h3>협력 네트워크 구축</h3><p>학교·복지기관·기업과의 협력을 통해 지속가능한 지원체계를 만들어가고 있습니다.</p></div>
+        <li class="timeline-item">
+          <div class="timeline-dot">4</div>
+          <div class="timeline-content"><h3>협력 네트워크 구축</h3><p>학교·복지기관·기업과의 협력을 통해 지속가능한 지원체계를 만들어가고 있습니다.</p></div>
         </li>
       </ul>
     </div>
@@ -440,10 +482,13 @@
         <h2>조직도</h2>
         <p>실제 조직 구성으로 교체될 자리입니다.</p>
       </div>
-      <div class="org-grid">
-        <div class="org-box"><b>이사장</b><span>(성명 입력)</span></div>
+      <div class="org-grid org-grid-top">
+        <div class="org-box"><b>이사장</b><span>민여진</span></div>
+        <div class="org-box"><b>이사회</b><span>이사 4명</span></div>
+        <div class="org-box"><b>감사</b><span>1명</span></div>
         <div class="org-box"><b>사무국</b><span>운영 총괄</span></div>
-        <div class="org-box"><b>이사회</b><span>(이사 OOO명)</span></div>
+      </div>
+      <div class="org-grid org-grid-sub">
         <div class="org-box"><b>교육사업팀</b><span>진로·정서·교육</span></div>
         <div class="org-box"><b>지원사업팀</b><span>학습·생활안정</span></div>
         <div class="org-box"><b>협력사업팀</b><span>네트워크·교류</span></div>
@@ -499,7 +544,17 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© PINEHOPE. All rights reserved.</span>
+      <div class="footer-bottom-left">
+        <span>© PINEHOPE. All rights reserved.</span>
+        <div class="footer-badges">
+          <a href="https://www.clean.go.kr/index.es?sid=a1" target="_blank" rel="noopener" aria-label="국민권익위원회 공익위반제보">
+            <img src="assets/acrc.png" alt="국민권익위원회">
+          </a>
+          <a href="https://hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index_pp.xml&tmIdx=47&tm2lIdx=4710000000&tm3lIdx=4710020000" target="_blank" rel="noopener" aria-label="국세청 공익법인 결산서류 공시">
+            <img src="assets/nts.png" alt="국세청">
+          </a>
+        </div>
+      </div>
       <span>이용약관 · 개인정보처리방침</span>
     </div>
   </div>

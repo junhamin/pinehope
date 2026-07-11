@@ -236,7 +236,16 @@
   .footer-grid h4{color:#fff;font-size:.84rem;letter-spacing:.04em;margin-bottom:16px;font-weight:500;}
   .footer-grid ul li{margin-bottom:8px;}
   .footer-grid a:hover{color:var(--leaf-light);}
-  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
+  .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;padding-top:20px;font-size:.78rem;color:rgba(255,255,255,.55);}
+  .footer-bottom-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .footer-badges{display:flex;align-items:center;gap:10px;}
+  .footer-badges a{
+    background:#fff;border-radius:8px;padding:4px 9px;
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .2s ease,transform .2s ease;
+  }
+  .footer-badges a:hover{opacity:.85;transform:translateY(-1px);}
+  .footer-badges img{height:20px;width:auto;max-width:88px;display:block;}
 
   @media (max-width: 900px){
     .hero .wrap{grid-template-columns:1fr;}
@@ -420,7 +429,17 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© PINEHOPE. All rights reserved.</span>
+      <div class="footer-bottom-left">
+        <span>© PINEHOPE. All rights reserved.</span>
+        <div class="footer-badges">
+          <a href="https://www.clean.go.kr/index.es?sid=a1" target="_blank" rel="noopener" aria-label="국민권익위원회 공익위반제보">
+            <img src="assets/acrc.png" alt="국민권익위원회">
+          </a>
+          <a href="https://hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index_pp.xml&tmIdx=47&tm2lIdx=4710000000&tm3lIdx=4710020000" target="_blank" rel="noopener" aria-label="국세청 공익법인 결산서류 공시">
+            <img src="assets/nts.png" alt="국세청">
+          </a>
+        </div>
+      </div>
       <span>이용약관 · 개인정보처리방침</span>
     </div>
   </div>
