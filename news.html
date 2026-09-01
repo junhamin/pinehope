@@ -322,6 +322,33 @@
     margin-top:32px;padding:18px 20px;border-radius:12px;
     background:rgba(251,250,246,.96);backdrop-filter:blur(6px);color:#52606a;font-size:.88rem;
   }
+
+  .news-detail{padding:64px 0 96px;}
+  .news-detail .wrap{max-width:760px;}
+  .news-detail-back{
+    display:inline-block;margin-bottom:24px;font-size:.88rem;color:#8a9299;
+  }
+  .news-detail-back:hover{color:var(--pine-blue-deep);}
+  .news-detail-head{display:flex;align-items:center;gap:12px;}
+  .news-detail-head .tag{
+    font-size:.74rem;color:#fff;background:var(--pine-blue);
+    border-radius:999px;padding:3px 10px;
+  }
+  .news-detail-head .date{font-size:.85rem;color:#8a9299;}
+  .news-detail h2{
+    margin-top:14px;font-size:clamp(1.4rem,2.6vw,1.9rem);color:var(--ink);line-height:1.4;
+  }
+  .news-detail-body{
+    margin-top:28px;padding-top:28px;border-top:1px solid rgba(30,136,199,.12);
+    font-size:.98rem;line-height:1.9;color:#3c4a53;
+  }
+  .news-detail-body p{margin-bottom:1.1em;}
+  .news-detail-body h1,.news-detail-body h2,.news-detail-body h3{
+    margin:1.4em 0 .6em;color:var(--pine-blue-deep);
+  }
+  .news-detail-body ul,.news-detail-body ol{margin:0 0 1.1em 1.3em;}
+  .news-detail-body a{color:var(--pine-blue-deep);text-decoration:underline;}
+  .news-detail-body img{max-width:100%;border-radius:12px;margin:1em 0;}
 </style>
 
 </head>
@@ -408,6 +435,18 @@
       <span class="date">2025.09.12</span>
     </div>
   </div>
+
+  <article class="news-detail" id="newsDetail" style="display:none;">
+    <div class="wrap">
+      <a href="news.html" class="news-detail-back">&larr; 목록으로</a>
+      <div class="news-detail-head">
+        <span class="tag" id="newsDetailTag">공지</span>
+        <span class="date" id="newsDetailDate"></span>
+      </div>
+      <h2 id="newsDetailTitle"></h2>
+      <div class="news-detail-body" id="newsDetailBody"></div>
+    </div>
+  </article>
 </main>
 
 <footer >
@@ -455,6 +494,7 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
 <script>
   const navToggle = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
@@ -511,6 +551,32 @@
       return data;
     }
 
+    function renderBody(md) {
+      if (window.marked) return marked.parse(md || '');
+      // marked.js를 못 불러온 경우를 위한 아주 단순한 대체 렌더링
+      return String(md || '')
+        .split(/\n{2,}/)
+        .map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    function showList() {
+      document.getElementById('board').style.display = '';
+      document.getElementById('newsDetail').style.display = 'none';
+    }
+
+    function showDetail(post) {
+      document.getElementById('board').style.display = 'none';
+      const detail = document.getElementById('newsDetail');
+      detail.style.display = '';
+      document.getElementById('newsDetailTag').textContent = post.category || '공지';
+      document.getElementById('newsDetailDate').textContent = post.date || '';
+      document.getElementById('newsDetailTitle').textContent = post.title || '';
+      document.getElementById('newsDetailBody').innerHTML = renderBody(post.body);
+      document.title = `${post.title || '공지사항'} | 사단법인 파인희망나눔`;
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    }
+
     async function loadNews() {
       try {
         const listRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
@@ -520,7 +586,9 @@
 
         const posts = await Promise.all(files.map(async f => {
           const raw = await fetch(f.download_url).then(r => r.text());
-          return parseFrontmatter(raw);
+          const data = parseFrontmatter(raw);
+          data.id = f.name.replace(/\.md$/, '');
+          return data;
         }));
 
         posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
@@ -529,10 +597,19 @@
         board.innerHTML = posts.map(p => `
           <div class="board-row">
             <span class="tag">${escapeHtml(p.category || '공지')}</span>
-            <a href="#">${escapeHtml(p.title || '')}</a>
+            <a href="news.html?id=${encodeURIComponent(p.id)}">${escapeHtml(p.title || '')}</a>
             <span class="date">${escapeHtml(p.date || '')}</span>
           </div>
         `).join('');
+
+        const requestedId = new URLSearchParams(window.location.search).get('id');
+        if (requestedId) {
+          const post = posts.find(p => p.id === requestedId);
+          if (post) showDetail(post);
+          else showList();
+        } else {
+          showList();
+        }
       } catch (e) {
         console.warn('공지사항을 불러오지 못해 기본 안내만 표시합니다.', e);
       }

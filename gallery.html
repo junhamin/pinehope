@@ -308,13 +308,46 @@
   .breadcrumb a{color:rgba(255,255,255,.85);}
   .gallery-body{padding:88px 0;}
   .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:0 auto;}
-  .gallery-card{border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(30,136,199,.1);}
+  .gallery-card{border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(30,136,199,.1);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;}
+  .gallery-card:hover{transform:translateY(-3px);box-shadow:0 14px 26px -18px rgba(19,97,144,.35);}
   .gallery-thumb{aspect-ratio:4/3;background:linear-gradient(135deg,var(--pine-blue),var(--pine-green));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.9);font-family:var(--font-display);font-size:.85rem;}
   .gallery-cap{padding:16px 18px;}
   .gallery-cap p{font-weight:500;font-size:.95rem;}
   .gallery-cap span{display:block;margin-top:4px;font-size:.8rem;color:#8a9299;}
   @media (max-width:760px){.gallery-grid{grid-template-columns:1fr 1fr;}}
   @media (max-width:520px){.gallery-grid{grid-template-columns:1fr;}}
+
+  .lightbox{
+    display:none;position:fixed;inset:0;z-index:999;
+    background:rgba(20,28,32,.92);backdrop-filter:blur(4px);
+    align-items:center;justify-content:center;padding:32px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox-inner{max-width:min(880px,92vw);max-height:90vh;display:flex;flex-direction:column;align-items:center;}
+  .lightbox-inner img{max-width:100%;max-height:70vh;border-radius:14px;display:block;box-shadow:0 24px 48px -20px rgba(0,0,0,.5);}
+  .lightbox-cap{margin-top:18px;text-align:center;color:#fff;max-width:640px;}
+  .lightbox-cap p{font-weight:500;font-size:1.02rem;}
+  .lightbox-cap span{display:block;margin-top:4px;font-size:.82rem;color:rgba(255,255,255,.6);}
+  .lightbox-desc{margin-top:10px;font-weight:400;font-size:.9rem;color:rgba(255,255,255,.8);line-height:1.7;}
+  .lightbox-close{
+    position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;
+    font-size:2.2rem;line-height:1;cursor:pointer;padding:6px 10px;opacity:.85;
+  }
+  .lightbox-close:hover{opacity:1;}
+  .lightbox-nav{
+    position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);
+    border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.3rem;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s ease;
+  }
+  .lightbox-nav:hover{background:rgba(255,255,255,.24);}
+  .lightbox-prev{left:20px;}
+  .lightbox-next{right:20px;}
+  @media (max-width:600px){
+    .lightbox-nav{width:38px;height:38px;font-size:1.1rem;}
+    .lightbox-prev{left:8px;}
+    .lightbox-next{right:8px;}
+    .lightbox-close{top:12px;right:12px;font-size:1.9rem;}
+  }
 </style>
 
 </head>
@@ -392,6 +425,20 @@
       </div>
     </div>
   </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="닫기">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="이전 사진">&larr;</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="다음 사진">&rarr;</button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="">
+      <div class="lightbox-cap">
+        <p id="lightboxTitle"></p>
+        <span id="lightboxDate"></span>
+        <p id="lightboxDesc" class="lightbox-desc"></p>
+      </div>
+    </div>
+  </div>
 
 </main>
 
@@ -505,25 +552,70 @@
 
         const items = await Promise.all(files.map(async f => {
           const raw = await fetch(f.download_url).then(r => r.text());
-          return parseFrontmatter(raw);
+          const data = parseFrontmatter(raw);
+          let img = (data.image || '').trim();
+          if (img && !/^https?:\/\//.test(img) && !img.startsWith('/')) img = '/' + img;
+          data.image = img;
+          return data;
         }));
 
         items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
         const grid = document.getElementById('galleryGrid');
-        grid.innerHTML = items.map(it => {
-          let img = (it.image || '').trim();
-          if (img && !/^https?:\/\//.test(img) && !img.startsWith('/')) img = '/' + img;
-          const thumb = img
-            ? `<img src="${img}" alt="${escapeHtml(it.title || '')}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+        grid.innerHTML = items.map((it, i) => {
+          const thumb = it.image
+            ? `<img src="${it.image}" alt="${escapeHtml(it.title || '')}" style="width:100%;height:100%;object-fit:cover;display:block;">`
             : '';
           return `
-            <article class="gallery-card">
+            <article class="gallery-card" data-index="${i}">
               <div class="gallery-thumb">${thumb}</div>
               <div class="gallery-cap"><p>${escapeHtml(it.title || '')}</p><span>${escapeHtml(it.date || '')}</span></div>
             </article>
           `;
         }).join('');
+
+        // 라이트박스(확대보기) 연결
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxDate = document.getElementById('lightboxDate');
+        const lightboxDesc = document.getElementById('lightboxDesc');
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+          currentIndex = (index + items.length) % items.length;
+          const it = items[currentIndex];
+          lightboxImg.src = it.image || '';
+          lightboxImg.alt = it.title || '';
+          lightboxTitle.textContent = it.title || '';
+          lightboxDate.textContent = it.date || '';
+          lightboxDesc.textContent = it.description || '';
+          lightboxDesc.style.display = it.description ? '' : 'none';
+          lightbox.classList.add('open');
+        }
+
+        function closeLightbox() {
+          lightbox.classList.remove('open');
+        }
+
+        grid.querySelectorAll('.gallery-card').forEach(card => {
+          card.addEventListener('click', () => openLightbox(Number(card.dataset.index)));
+        });
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxPrev').addEventListener('click', () => openLightbox(currentIndex - 1));
+        document.getElementById('lightboxNext').addEventListener('click', () => openLightbox(currentIndex + 1));
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (!lightbox.classList.contains('open')) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+          if (e.key === 'ArrowRight') openLightbox(currentIndex + 1);
+        });
       } catch (e) {
         console.warn('갤러리를 불러오지 못해 기본 이미지만 표시합니다.', e);
       }
