@@ -386,7 +386,7 @@
     </div>
   </section>
 
-  <div class="board">
+  <div class="board" id="board">
     <div class="board-row">
       <span class="tag">공지</span>
       <a href="#">2025 겨울 정기후원 캠페인 안내</a>
@@ -407,9 +407,6 @@
       <a href="#">협력기관 교류 워크숍 진행 후기</a>
       <span class="date">2025.09.12</span>
     </div>
-  </div>
-  <div class="wrap">
-    <p class="board-note">현재는 자리 배치를 위한 임시 게시글입니다. 실제 운영 시에는 관리자 화면(Decap CMS)에서 글쓰기 버튼만 누르면 이 목록에 새 글이 자동으로 쌓이도록 연결할 예정입니다.</p>
   </div>
 </main>
 
@@ -486,6 +483,63 @@
       navToggle.setAttribute('aria-expanded', false);
     });
   });
+
+  // 관리자(Decap CMS)에서 작성한 공지사항을 GitHub 저장소(_data/news)에서 불러와 표시
+  (function () {
+    const REPO = 'junhamin/pinehope';
+    const BRANCH = 'main';
+    const FOLDER = '_data/news';
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    function parseFrontmatter(text) {
+      const m = text.match(/^---\s*([\s\S]*?)---\s*([\s\S]*)$/);
+      const data = { body: '' };
+      if (!m) return data;
+      m[1].split('\n').forEach(line => {
+        const idx = line.indexOf(':');
+        if (idx === -1) return;
+        const key = line.slice(0, idx).trim();
+        let val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+        data[key] = val;
+      });
+      data.body = m[2].trim();
+      return data;
+    }
+
+    async function loadNews() {
+      try {
+        const listRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
+        if (!listRes.ok) throw new Error('목록을 불러오지 못했습니다');
+        const files = (await listRes.json()).filter(f => f.name.endsWith('.md'));
+        if (!files.length) return;
+
+        const posts = await Promise.all(files.map(async f => {
+          const raw = await fetch(f.download_url).then(r => r.text());
+          return parseFrontmatter(raw);
+        }));
+
+        posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+        const board = document.getElementById('board');
+        board.innerHTML = posts.map(p => `
+          <div class="board-row">
+            <span class="tag">${escapeHtml(p.category || '공지')}</span>
+            <a href="#">${escapeHtml(p.title || '')}</a>
+            <span class="date">${escapeHtml(p.date || '')}</span>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.warn('공지사항을 불러오지 못해 기본 안내만 표시합니다.', e);
+      }
+    }
+
+    loadNews();
+  })();
 </script>
 
 </body>

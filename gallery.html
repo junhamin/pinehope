@@ -382,7 +382,7 @@
 
   <section class="gallery-body">
     <div class="wrap">
-      <div class="gallery-grid">
+      <div class="gallery-grid" id="galleryGrid">
         <article class="gallery-card"><div class="gallery-thumb">PHOTO 01</div><div class="gallery-cap"><p>진로·정서상담 프로그램 현장</p><span>2026.11</span></div></article>
         <article class="gallery-card"><div class="gallery-thumb">PHOTO 02</div><div class="gallery-cap"><p>학습지원 멘토링 데이</p><span>2026.10</span></div></article>
         <article class="gallery-card"><div class="gallery-thumb">PHOTO 03</div><div class="gallery-cap"><p>협력기관 교류 워크숍</p><span>2026.09</span></div></article>
@@ -390,7 +390,6 @@
         <article class="gallery-card"><div class="gallery-thumb">PHOTO 05</div><div class="gallery-cap"><p>장학금 전달식</p><span>2026.08</span></div></article>
         <article class="gallery-card"><div class="gallery-thumb">PHOTO 06</div><div class="gallery-cap"><p>여름 캠프 활동</p><span>2026.07</span></div></article>
       </div>
-      <p style="text-align:center;margin-top:32px;color:#8a9299;font-size:.88rem;">현재는 자리 배치를 위한 임시 사진입니다. 실제 활동 사진으로 교체될 예정입니다.</p>
     </div>
   </section>
 
@@ -469,6 +468,69 @@
       navToggle.setAttribute('aria-expanded', false);
     });
   });
+
+  // 관리자(Decap CMS)에서 등록한 사진을 GitHub 저장소(_data/gallery)에서 불러와 표시
+  (function () {
+    const REPO = 'junhamin/pinehope';
+    const BRANCH = 'main';
+    const FOLDER = '_data/gallery';
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    function parseFrontmatter(text) {
+      const m = text.match(/^---\s*([\s\S]*?)---\s*([\s\S]*)$/);
+      const data = { body: '' };
+      if (!m) return data;
+      m[1].split('\n').forEach(line => {
+        const idx = line.indexOf(':');
+        if (idx === -1) return;
+        const key = line.slice(0, idx).trim();
+        let val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+        data[key] = val;
+      });
+      data.body = m[2].trim();
+      return data;
+    }
+
+    async function loadGallery() {
+      try {
+        const listRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
+        if (!listRes.ok) throw new Error('목록을 불러오지 못했습니다');
+        const files = (await listRes.json()).filter(f => f.name.endsWith('.md'));
+        if (!files.length) return;
+
+        const items = await Promise.all(files.map(async f => {
+          const raw = await fetch(f.download_url).then(r => r.text());
+          return parseFrontmatter(raw);
+        }));
+
+        items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+        const grid = document.getElementById('galleryGrid');
+        grid.innerHTML = items.map(it => {
+          let img = (it.image || '').trim();
+          if (img && !/^https?:\/\//.test(img) && !img.startsWith('/')) img = '/' + img;
+          const thumb = img
+            ? `<img src="${img}" alt="${escapeHtml(it.title || '')}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+            : '';
+          return `
+            <article class="gallery-card">
+              <div class="gallery-thumb">${thumb}</div>
+              <div class="gallery-cap"><p>${escapeHtml(it.title || '')}</p><span>${escapeHtml(it.date || '')}</span></div>
+            </article>
+          `;
+        }).join('');
+      } catch (e) {
+        console.warn('갤러리를 불러오지 못해 기본 이미지만 표시합니다.', e);
+      }
+    }
+
+    loadGallery();
+  })();
 </script>
 
 </body>
